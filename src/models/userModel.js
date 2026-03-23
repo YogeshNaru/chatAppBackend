@@ -28,6 +28,9 @@ const chatSchema = new Schema(
       type: String,
       required: true,
     },
+    image: {
+      type: String, // store cloudinary URL
+    },
     sender: {
       type: Schema.Types.ObjectId,
       ref: "User",
