@@ -46,6 +46,8 @@ export const signup = async (req, res) => {
 };
 
 export const signin = async (req, res) => {
+  const userAgent = req.headers["user-agent"];
+  // console.log("user-agent:-", userAgent);
   let { userName, password } = req.body;
   try {
     let user = await User.findOne({ userName });
@@ -65,6 +67,11 @@ export const signin = async (req, res) => {
       { id: user._id, userName: user.userName },
       process.env.JWT_SECRET
     );
+
+    user.userAgent = userAgent;
+    user.lastLogin = new Date();
+
+    await user.save();
 
     return res.status(httpStatus.OK).json({
       token: token,

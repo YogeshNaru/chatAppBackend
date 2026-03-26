@@ -18,6 +18,10 @@ const userSchema = new Schema({
   avatarUrl: {
     type: String,
   },
+  userAgent: {
+    type: String,
+  },
+  lastLogin: Date,
 });
 
 const User = mongoose.model("User", userSchema);
