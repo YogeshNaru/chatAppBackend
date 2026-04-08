@@ -15,7 +15,7 @@ const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: ["https://allora-chat.vercel.app", "http://localhost:5173"],
-    methods: ["get", "post"],
+    methods: ["GET", "POST"],
   },
 });
 
@@ -78,13 +78,16 @@ io.on("connection", (Socket) => {
 
 // db + start server
 
-const dburl = process.env.MONGO_URL;
-const start = async () => {
-  await mongoose.connect(dburl);
-  console.log("Database connected ");
-  server.listen(port, () => {
-    console.log(`app is listen on port: ${port}`);
-  });
-};
+app.get("/", (req, res) => {
+  res.send("Backend running ✅");
+});
 
-start();
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+// ✅ CONNECT DB (non-blocking)
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("Database connected"))
+  .catch((err) => console.log("DB error:", err));
